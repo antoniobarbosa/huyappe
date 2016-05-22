@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+    <title>Huyappe.IO</title>
+</head>
+<body>
+<link rel="stylesheet" href="dist/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="index.css">
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <button id="modalbtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Enter</button>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="pos-group on-top center-block text-center">
+        <div class="positions ape       col-md-2 col-xs-2 col-lg-2, col-sm-2">Ape</div>
+        <div class="positions dragon    col-md-2 col-xs-2 col-lg-2, col-sm-2">Dragon</div>
+        <div class="positions tiger     col-md-2 col-xs-2 col-lg-2, col-sm-2">Tiger</div>
+        <div class="positions seagul    col-md-2 col-xs-2 col-lg-2, col-sm-2">Seagul</div>
+        <div class="positions rabbit    col-md-2 col-xs-2 col-lg-2, col-sm-2">Rabbit</div>
+        <div class="positions snake     col-md-2 col-xs-2 col-lg-2, col-sm-2">Snake</div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class ="modal-body">
+                    <div class="form-group">
+                        <label for="username">Email address</label>
+                        <input type="text" class="form-control" id="username" placeholder="Username">
+                        <button class="btn btn-default" id="joinuser" data-dismiss="modal">Enter!</button>
+                        <button class="btn btn-success" id="joinguest" data-dismiss="modal">Enter as guest!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="row" style="padding-top:50px">
+            <div   class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                <div id="room" class="list-group list-group-horizontal">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="socket.io.js"></script>
+
+<script>
+    $( document ).ready(function() {
+        //var users = {};
+        var myUser = "";
+        var usersQueue = [];
+
+        var setWinner =function(winnerId){
+            $('.winner').removeClass("winner");
+            $('#'+winnerId).addClass('winner');
+        }
+
+        var destroyUser = function(userId){
+            console.log(userId);
+            console.log('userId');
+            $( "#"+userId ).remove();
+        }
+        var updateUser= function(userId,userInfo){
+            console.log(JSON.stringify(userInfo));
+            console.log($('#'+userId).children(".name"));
+            $('#'+userId).children(".name").text(userInfo.name);
+            $('#'+userId).children(".score").text(userInfo.score);
+            $('#'+userId).children(".user-pos").removeClass('user-pos-0');
+            $('#'+userId).children(".user-pos").removeClass('user-pos-1');
+            $('#'+userId).children(".user-pos").removeClass('user-pos-2');
+            $('#'+userId).children(".user-pos").removeClass('user-pos-3');
+            $('#'+userId).children(".user-pos").removeClass('user-pos-4');
+            $('#'+userId).children(".user-pos").removeClass('user-pos-5');
+            $('#'+userId).children(".user-pos").addClass('user-pos-'+userInfo.pos);
+
+            //$('#'+userId).children(".name").text(userInfo.name);
+        };
+
+        var updateAllUsers= function(users){
+            usersQueue.forEach(function(userId,idx){
+                if(users['/#'+userId]!=undefined){
+                    updateUser(userId,users['/#'+userId])
+                }else{
+                    destroyUser(userId);
+                }
+            })
+
+        };
+
+
+        var createUsersByQueue = function(usersParam){
+            console.log(usersParam.length);
+            for(var i=0;i<usersParam.length;i++){
+                console.log("for");
+                var userId= usersParam[i].substring(2, usersParam[i].length);
+                if(usersQueue.indexOf(userId)==-1){
+                    usersQueue.push(userId);
+                    var hl="";
+                    if(myUser==userId){
+                        hl="active"
+                    }
+                    $("#room").append('<div id="'+userId+'" class="list-group-item '+hl+'">' +
+                            '<div class="score"></div>' +
+
+                            '<div class="name"></div>'+
+                            '<div class="user-pos position-1"></div>' +
+                            '</div>');
+                }else{
+                    //updateUser(userId,userInfo);
+                }
+            }
+        };
+
+        var socket = io.connect('http://192.168.1.35:3000');
+        $('form').submit(function(){
+
+            socket.emit('chat message', $('#m').val());
+
+            $('#m').val('');
+            return false;
+        });
+        $('#modalbtn').click();
+
+        $('#joinguest').click(function(){
+            myUser=socket.id;
+            socket.emit('join', '__guest');
+            console.log(socket.id);
+        });
+        $('#joinuser').click(function(){
+            myUser=socket.id;
+            socket.emit('join', $('#username').val());
+        });
+
+
+        $('.tiger').mouseover(function(){
+            socket.emit('change position', 1);
+        });
+        $('.snake').mouseover(function(){
+            socket.emit('change position', 2);
+        });
+        $('.rabbit').mouseover(function(){
+            socket.emit('change position', 3);
+        });
+        $('.dragon').mouseover(function(){
+            socket.emit('change position', 4);
+        });
+        $('.seagul').mouseover(function(){
+            socket.emit('change position', 5);
+        });
+        $('.ape').mouseover(function(){
+            socket.emit('change position', 0);
+        });
+        $('html').click(function(){
+            socket.emit('huya');
+        })
+
+
+
+        socket.on('change position', function(user){
+            updateUser(user.id.substring(2, user.id.length),user);
+        });
+
+        socket.on('update queue', function(queue){
+            createUsersByQueue(queue);
+        });
+
+        socket.on('update users', function(data){
+            updateAllUsers(data);
+        });
+
+
+
+        socket.on('round', function(round){
+           // setRound(round);
+            var winnerScore= -20;
+            var winner="";
+            usersQueue.forEach(function(user){
+               if($('#'+user).children(".score").text()>winnerScore){
+                   winnerScore =$('#'+user).children(".score").text();
+                   winner=user;
+                }
+            })
+            if(round==19){
+                setWinner(winner);
+            }
+
+        });
+
+        socket.on('leader', function(leaderId){
+            console.log(leaderId);
+            $('.leader').removeClass("leader");
+            $('#'+leaderId.substring(2, leaderId.length)).addClass('leader');
+        });
+        socket.on('chat message', function(msg){
+
+            $('#messages').append($('<li>').text(msg));
+        });
+    });
+</script>
+</body>
+</html>

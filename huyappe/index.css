@@ -1,0 +1,165 @@
+.list-group-horizontal .list-group-item {
+    display: inline-block;
+}
+.list-group-horizontal .list-group-item {
+    margin-bottom: 0;
+    margin-left:-4px;
+    margin-right: 0;
+}
+.list-group-horizontal .list-group-item:first-child {
+    border-top-right-radius:0;
+    border-bottom-left-radius:4px;
+}
+.list-group-horizontal .list-group-item:last-child {
+    border-top-right-radius:4px;
+    border-bottom-left-radius:0;
+}
+.on-top {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+.positions{
+    height:100%;
+
+}
+.leader{
+    background: url('Leader.png')no-repeat ;
+    background-color: #5787ff;
+}
+.winner{
+    background: url('winner.png')no-repeat ;
+    background-color: #5787ff;
+
+}
+.tiger{
+    background-color: rgba(255,255,0,0.3);
+}
+.snake{
+    background-color: rgba(100,200,0,0.3);
+}
+.ape{
+    background-color: rgba(255,140,0,0.3);
+}
+.seagul{
+    background-color: rgba(38,255,255,0.3);
+}
+.rabbit{
+    background-color: rgba(255,140,200,0.3);
+}
+.dragon{
+    background-color: rgba(255,0,0,0.3);
+}
+
+.tiger:hover{
+    background-color: rgba(255,255,0,0.7);
+}
+.snake:hover{
+    background-color: rgba(100,200,0,0.7);
+}
+.ape:hover{
+    background-color: rgba(255,140,0,0.7);
+}
+.seagul:hover{
+    background-color: rgba(38,255,255,0.7);
+}
+.rabbit:hover{
+    background-color: rgba(255,140,200,0.7);
+}
+.dragon:hover{
+    background-color: rgba(255,0,0,0.7);
+}
+.user-pos-0{
+    background: url('ape.png') ;
+    height:197px;
+    width:174px;
+    -webkit-animation: play .4s steps(2) infinite;
+    -moz-animation: play .4s steps(2) infinite;
+    -ms-animation: play .4s steps(2) infinite;
+    -o-animation: play .4s steps(2) infinite;
+    animation: play .4s steps(2) infinite;
+}
+.user-pos-1{
+    background: url('tiger.png') ;
+    height:197px;
+    width:174px;
+    -webkit-animation: play .4s steps(2) infinite;
+    -moz-animation: play .4s steps(2) infinite;
+    -ms-animation: play .4s steps(2) infinite;
+    -o-animation: play .4s steps(2) infinite;
+    animation: play .4s steps(2) infinite;
+}
+
+.user-pos-2{
+    background: url('snake.png') ;
+    height:197px;
+    width:174px;
+    -webkit-animation: play .4s steps(2) infinite;
+    -moz-animation: play .4s steps(2) infinite;
+    -ms-animation: play .4s steps(2) infinite;
+    -o-animation: play .4s steps(2) infinite;
+    animation: play .4s steps(2) infinite;
+}
+
+.user-pos-3{
+    background: url('rabbit.png') ;
+    height:197px;
+    width:174px;
+    -webkit-animation: play .4s steps(2) infinite;
+    -moz-animation: play .4s steps(2) infinite;
+    -ms-animation: play .4s steps(2) infinite;
+    -o-animation: play .4s steps(2) infinite;
+    animation: play .4s steps(2) infinite;
+}
+
+.user-pos-4{
+    background: url('dragon.png') ;
+    height:197px;
+    width:174px;
+    -webkit-animation: play .4s steps(2) infinite;
+    -moz-animation: play .4s steps(2) infinite;
+    -ms-animation: play .4s steps(2) infinite;
+    -o-animation: play .4s steps(2) infinite;
+    animation: play .4s steps(2) infinite;
+}
+
+.user-pos-5{
+    background: url('seagull.png') ;
+    height:197px;
+    width:174px;
+    -webkit-animation: play .4s steps(2) infinite;
+    -moz-animation: play .4s steps(2) infinite;
+    -ms-animation: play .4s steps(2) infinite;
+    -o-animation: play .4s steps(2) infinite;
+    animation: play .4s steps(2) infinite;
+}
+
+
+
+
+@-webkit-keyframes play {
+    from { background-position:    0px; }
+    to { background-position: -348px; }
+}
+
+@-moz-keyframes play {
+    from { background-position:    0px; }
+    to { background-position: -348px; }
+}
+
+@-ms-keyframes play {
+    from { background-position:    0px; }
+    to { background-position: -348px; }
+}
+
+@-o-keyframes play {
+    from { background-position:    0px; }
+    to { background-position: -348px; }
+}
+
+@keyframes play {
+    from { background-position:    0px; }
+    to { background-position: -348px; }
+}
+
